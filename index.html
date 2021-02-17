@@ -1,0 +1,90 @@
+<html><head>
+    <title>p5.js Simple Joystick</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <script src="p5.js"></script>
+    <script src="p5.dom.min.js"></script>
+    <script src="p5.play.js"></script>
+    <script src="p5.sound.min.js"></script>
+
+    <style>
+      canvas {
+        position: absolute;
+      }
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body cz-shortcut-listen="true">
+    <script>
+        function preload(){
+            bg=loadImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfE6GHw3Yieb5MIbumuaOcGdZRSumawQTZ1w&usqp=CAU");
+        }
+      document.addEventListener("gesturestart", function(e) {
+        e.preventDefault();
+      });
+
+      let sprite_x;
+      let sprite_y;
+      const sprite_size = 50;
+      let jx;
+      let jy;
+      let jr;
+
+      const max_jump_height = 30;
+      let current_jump_height = 0;
+      let moving_vertically = false;
+      var width = document.body.clientWidth;
+      var height = document.body.clientHeight;
+      function setup() {
+        createCanvas(document.body.clientWidth, document.body.clientHeight);
+        sprite_x = 50;
+        sprite_y = 50;
+        jx = (width /3.5)*3;
+        jy = (height / 3.75) * 3;
+        jr = height / 7.5;
+        wall1=createSprite(5,height/2,10,height);
+        wall2=createSprite(width-5,height/2,10,height);
+        wall3=createSprite(width/2,height-5,width,10);
+        wall4=createSprite(width/2,5,width,10);
+        wall1.shapeColor="black"
+        wall2.shapeColor="black"
+        wall3.shapeColor="black"
+        wall4.shapeColor="black"
+
+      }
+      function draw() {
+        moving_vertically = false;
+        background(bg);
+        drawSprites();
+        // draw joy stick interface
+        push();
+        strokeWeight(3);
+        fill("white");
+        circle(jx, jy, jr * 2);
+        pop();
+        push();
+        strokeWeight(4);
+        fill("rgb(255,75,75)")
+        for(var i=0;i<touches.length;i++){
+            if(touches[i].x<(jx+jr)&&touches[i].x>(jx-jr)&&touches[i].y<(jy+jr)&&touches[i].y>(jy-jr)){
+            circle(touches[i].x,touches[i].y,height/8);
+            }            
+        }
+        if(touches.length===0){
+            circle(jx,jy,height/8);
+
+        }
+        pop();
+      
+      }
+      function mousePressed() {
+  return false;
+}
+   
+    </script>
+  
+
+</body>
+</html>
